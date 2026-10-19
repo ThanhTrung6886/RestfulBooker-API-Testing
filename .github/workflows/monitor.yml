@@ -12,13 +12,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Postman CLI
-        run: |
-          curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
 
-      - name: Login to Postman CLI
-        run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
+      - name: Install Newman
+        run: npm install -g newman
 
-      - name: Run API tests
-        run: |
-          postman collection run "ID_CỦA_COLLECTION_MONITOR"
+      - name: Run Collection
+        run: newman run RestfulBooker.postman_collection.json
